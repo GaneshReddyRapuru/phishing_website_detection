@@ -27,7 +27,7 @@ def predict_input(single_input):
 def phishing_detection():
     if request.method == "POST":
         url = request.form.get('url')
-        domainnames=whois.whois(url).domain_name
+        # domainnames=whois.whois(url).domain_name
         # if domainnames!=None and type(domainnames)==list:
         #     if domainnames[0] in domains:
         #         return render_template('detectionpage.html', domainName=domainnames[0])
@@ -35,15 +35,19 @@ def phishing_detection():
         #     return render_template('detectionpage.html', domainName=domainnames)
         # else:
         print('hi')
-        final = getAttributess(url)
-        # print(final)
-        # print('hi')
-        # values = dict_making(feature_names,final)
-        # print(values)
-        final_values = predict_input(final)
-        # (final_values[0])
-        print(final_values[0])
-        return render_template('detectionpage.html',prediction = final_values[0])
+        try:
+            final = getAttributess(url)
+            # print(final)
+            # print('hi')
+            # values = dict_making(feature_names,final)
+            # print(values)
+            final_values = predict_input(final)
+            # (final_values[0])
+            print(final_values[0])
+            return render_template('detectionpage.html',prediction = final_values[0])
+        except:
+            final_values = [0]
+            return render_template('detectionpage.html', prediction=final_values[0])
     return render_template('index.html')
 
 if __name__ == "__main__":
